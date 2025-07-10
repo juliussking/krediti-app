@@ -9,13 +9,13 @@
 
       <div class="flex flex-col items-center md:items-start gap-6">
         <!-- Avatar -->
-        <div class="flex-shrink-0 w-full flex justify-center">
+        <div class="flex-shrink-0 w-full ml-4">
           <img :class="['w-32 h-32 rounded-full object-cover border-4 shadow',
             {
               'border-green-500': clientProfile.status === 'Ativo',
               'border-orange-500': clientProfile.status === 'Quitado',
               'border-red-500': clientProfile.status === 'Vencido',
-            }]" :src="clientProfile.profile?.avatar ?? '/assets/img/default/default-avatar.jpg'" alt="Avatar" />
+            }]" :src="clientProfile.avatar ?? '/assets/img/default/default-avatar.jpg'" alt="Avatar" />
         </div>
 
         <!-- Info -->
@@ -26,7 +26,7 @@
             <input
                 type="text" 
                 :class="[
-                !clientProfile.name ? 'text-red-500 font-normal italic' : 'text-gray-800 text-3xl font-semibold mb-4',
+                !clientProfile.name ? 'text-red-500 font-normal italic' : 'text-gray-800 text-3xl font-semibold mb-4 w-full',
                 editPersonal ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
                 ]" 
                 v-model="clientProfile.name" 
@@ -38,7 +38,7 @@
                 class="text-sm text-blue-600 cursor-pointer bg-blue-50 px-2 py-1 rounded hover:bg-blue-100">Editar</p>
               <p v-if="editPersonal" @click="cancelEditPersonalInfo"
                 class="text-sm text-red-600 cursor-pointer bg-red-50 px-2 py-1 rounded hover:bg-red-100">Cancelar</p>
-              <p v-if="editPersonal"
+              <p v-if="editPersonal" @click="savePersonalInfo"
                 class="text-sm text-green-600 cursor-pointer bg-green-50 px-2 py-1 rounded hover:bg-green-100">Salvar
               </p>
             </div>
@@ -62,18 +62,49 @@
 
             </div>
             <div>
+              <p class="font-semibold">Gênero:
+                <input 
+                type="text" :class="[
+                  !clientProfile.gender ? 'text-red-500 font-normal italic' : 'text-gray-800',
+                  editPersonal ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
+                ]" :readonly="!editPersonal" v-model="clientProfile.gender" :value="clientProfile.gender ?? 'Nao cadastrado'">
+
+              </p>
+            </div>
+            <div>
               <p class="font-semibold">Telefone:
                 <input 
                 v-if="editPersonal"
                 type="text" :class="[
                   !clientProfile.phone ? 'text-red-500 font-normal italic' : 'text-gray-800',
-                  editOffice ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
+                  editPersonal ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
                 ]" :readonly="!editPersonal" v-model="clientProfile.phone" :value="formatPhone(clientProfile.phone) ?? 'Nao cadastrado'">
                 <span v-else>
                   
                   {{ formatPhone(clientProfile.phone) ?? 'Nao cadastrado' }}
 
                 </span>
+
+              </p>
+            </div>
+            <div>
+              <p class="font-semibold">Estado civíl:
+                <select 
+                :class="[
+                  !clientProfile.marital_status ? 'text-red-500 font-normal italic' : 'text-gray-800',
+                  editPersonal ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
+                ]"
+                v-if="editPersonal"
+                v-model="clientProfile.marital_status" 
+                :value="clientProfile.marital_status ?? 'Nao cadastrado'" 
+                :readonly="!editPersonal">
+                  <option value="Solteiro">Solteiro</option>
+                  <option value="Casado">Casado</option>
+                  <option value="Divorciado">Divorciado</option>
+                  <option value="Viuvo">Viuvo</option>
+                </select>
+
+                <span v-else>{{ clientProfile.marital_status ?? 'Nao cadastrado' }}</span>
 
               </p>
             </div>
@@ -121,6 +152,7 @@
               <p v-if="editAddress" @click="cancelEditAddressInfo"
                 class="text-sm text-red-600 cursor-pointer bg-red-50 px-2 py-1 rounded hover:bg-red-100">Cancelar</p>
               <p v-if="editAddress"
+              @click="saveAddressInfo"
                 class="text-sm text-green-600 cursor-pointer bg-green-50 px-2 py-1 rounded hover:bg-green-100">Salvar
               </p>
             </div>
@@ -133,7 +165,7 @@
                 <input 
                 
                 type="text" :class="[
-                  !clientProfile.street ? 'text-red-500 font-normal italic' : 'text-gray-800',
+                  !clientProfile.street ? 'text-red-500 font-normal italic' : 'text-gray-800 w-full',
                   editAddress ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
                 ]" v-model="clientProfile.street" :value="clientProfile.street ?? 'Nao cadastrado'"
                   :readonly="!editAddress">
@@ -151,6 +183,16 @@
               </p>
             </div>
             <div>
+              <p class="font-semibold">Número:
+                <input type="number" :class="[
+                  !clientProfile.number ? 'text-red-500 font-normal italic' : 'text-gray-800',
+                  editAddress ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
+                ]" v-model="clientProfile.number" :value="clientProfile.number ?? 'Nao cadastrado'"
+                  :readonly="!editAddress">
+
+              </p>
+            </div>
+            <div>
               <p class="font-semibold">Cidade:
                 <input type="text" :class="[
                   !clientProfile.city ? 'text-red-500 font-normal italic' : 'text-gray-800',
@@ -162,18 +204,20 @@
             </div>
             <div>
               <p class="font-semibold">CEP:
-                <input type="text" :class="[
+                <input 
+                v-if="editAddress"
+                type="text" :class="[
                   !clientProfile.zipcode ? 'text-red-500 font-normal italic' : 'text-gray-800',
                   editAddress ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
                 ]" v-model="clientProfile.zipcode" :value="clientProfile.zipcode ?? 'Nao cadastrado'"
                   :readonly="!editAddress">
-
+                  <span v-else>{{ formatZipcode(clientProfile.zipcode) }}</span>
               </p>
             </div>
             <div>
               <p class="font-semibold">Ponto de referência:
                 <input type="text" :class="[
-                  !clientProfile.reference_point ? 'text-red-500 font-normal italic' : 'text-gray-800',
+                  !clientProfile.reference_point ? 'text-red-500 font-normal italic' : 'text-gray-800 w-full',
                   editAddress ? 'border border-gray-400 rounded focus:outline-none focus:border-blue-500 px-1 py-1' : 'focus:outline-none',
                 ]" v-model="clientProfile.reference_point" :value="clientProfile.reference_point ?? 'Nao cadastrado'"
                   :readonly="!editAddress">
@@ -381,19 +425,25 @@ function editAddressInfo() {
   }
 
   editAddress.value = true
+  
+}
+function cancelEditAddressInfo() {
+  clientProfile.value = officeData.value
+  editAddress.value = false;
+}
 
+function saveAddressInfo() {
+  
+  clientStore.updateAddress(clientProfile.value.id)
+  .then(() => {
+    editAddress.value = false;
+  })
 }
 function cancelEditOfficeInfo() {
   
   clientProfile.value = officeData.value
   editOffice.value = false;
 
-}
-
-
-function cancelEditAddressInfo() {
-  clientProfile.value = officeData.value
-  editAddress.value = false;
 }
 
 function editPersonalInfo() {
@@ -406,6 +456,15 @@ function editPersonalInfo() {
 function cancelEditPersonalInfo() {
   clientProfile.value = officeData.value
   editPersonal.value = false;
+}
+
+function savePersonalInfo() {
+  
+  clientStore.updateClient(clientProfile.value.id)
+  .then(() => {
+    editPersonal.value = false;
+  })
+
 }
 
 onMounted(() => {

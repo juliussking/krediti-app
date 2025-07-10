@@ -61,6 +61,28 @@ export const useClientStore = defineStore("client", {
 
         },
 
+        updateClient(clientId) {
+            return axios.put(`/api/client-update/${clientId}`, {
+                name: this.clientProfile.name,
+                email: this.clientProfile.email,
+                person_type: this.clientProfile.person_type,
+                birth_date: this.clientProfile.birth_date,
+                gender: this.clientProfile.gender,
+                marital_status: this.clientProfile.marital_status,
+            });
+        },
+
+        updateAddress(clientId) {
+            return axios.put(`/api/client-address-update/${clientId}`, {
+                zipcode: this.clientProfile.zipcode,
+                street: this.clientProfile.street,
+                neighbor: this.clientProfile.neighbor,
+                city: this.clientProfile.city,
+                number: this.clientProfile.number,
+                reference_point: this.clientProfile.reference_point,
+            });
+        },
+
         registerClients(values) {
             return axios.post('/api/client-register', values)
         },
