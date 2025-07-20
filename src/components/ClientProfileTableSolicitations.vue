@@ -1,27 +1,16 @@
 <template>
+
   <div class="p-4 border-b border-gray-200 flex justify-between ">
-      <h2 class="text-lg font-semibold text-gray-800">Solicitações</h2>
+    <h2 class="text-lg font-semibold text-gray-800">Solicitações</h2>
+  </div>
 
-      <div class=" flex gap-3">
-        <label for=""></label>
-        <input type="text" class="border border-gray-400 rounded focus:outline-none focus:border-blue-500">
-        <input type="date"
-          class="border border-gray-400 rounded focus:outline-none focus:border-blue-500 text-gray-400 focus:text-gray-700">
-        <input type="date"
-          class="border border-gray-400 rounded focus:outline-none focus:border-blue-500 text-gray-400 focus:text-gray-700">
-
-        <p
-          class="text-sm text-blue-600 font-semibold bg-blue-50 px-2 py-1 rounded hover:bg-blue-100  cursor-pointer mr-3">
-          Nova solicitação</p>
-      </div>
-    </div>
   <div v-if="clientProfile.solicitations?.length === 0" class="solictation">
 
     <h2 class="text-lg font-semibold text-gray-500 text-sm italic">Nenhuma solicitação registrada</h2>
 
   </div>
 
-  
+
   <div v-else class="bg-white shadow rounded overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200 text-sm">
       <thead class="bg-gray-50 text-gray-600 uppercase text-xs text-left">
@@ -41,7 +30,7 @@
         <tr v-for="solicitation in clientProfile?.solicitations" :key="solicitation.id" class="hover:bg-gray-50">
 
           <td class="px-6 py-4 whitespace-nowrap">
-
+            
             {{ solicitation.user_name }}
 
           </td>
@@ -132,7 +121,6 @@
         <span class="font-semibold">{{ solicitationSelected.user_name }}</span>?
       </h2>
     </BaseModal>
-
     <BaseModal v-model="approveSolicitationModal.isOpen.value" modalTitle="Aprovar solicitação?"
       @confirm="confirmApproveSolicitation(solicitationSelected.id, solicitationSelected.counteroffer ?? solicitationSelected.amount_requested)"
       buttonConfirmClass="bg-blue-600 hover:bg-blue-700 text-white"

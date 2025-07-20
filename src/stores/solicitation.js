@@ -18,11 +18,13 @@ export const useSolicitationStore = defineStore("solicitation", {
            
             return axios.get('/api/solicitations')
             .then(response => {
+                console.log(response);
                 this.solicitations = response.data.solicitations;      
                 this.solicitations_count = response.data.solicitations_count;
                 this.solicitations_approved = response.data.solicitations_approved;
                 this.solicitations_pending = response.data.solicitations_pending;
-                this.solicitations_reproved = response.data.solicitations_reproved;         
+                this.solicitations_reproved = response.data.solicitations_reproved;  
+                       
                 })
             .finally(() => {
                 loadingStore.stopLoading();
@@ -47,7 +49,6 @@ export const useSolicitationStore = defineStore("solicitation", {
 
         approveSolicitation(solicitationId, amount) {
 
-            
             return axios.put(`/api/approve-solicitation/${solicitationId}`)
             .then(response => {
                 

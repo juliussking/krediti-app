@@ -37,6 +37,9 @@ const message = {
     AdminEmailAlreadyExistsException: 'Email do administrador já cadastrado.',
     CompanyEmailAlreadyExistsException: 'Email da empresa já cadastrado.',
     CnpjAlreadyExistsException: 'Este CNPJ já foi cadastrado.',
+    EmailIsNotVerifiedException: 'E-mail não verificado.',
+    CompanyNotFoundException: 'Este usuário não pertence a uma empresa.',
+    CompanyDontHasSubscriptionException: 'Sua empresa não possui uma assinatura ativa. Por favor, entre em contato com o seu administrador.',
 
 }
 

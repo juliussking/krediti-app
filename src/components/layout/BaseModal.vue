@@ -22,13 +22,19 @@
 
           <div class="actions flex gap-2 justify-end p-5">
 
-            <DefaultButton @click="emit('update:modelValue', false)" :buttonClass="buttonCancelClass" :loading="false"
+            <DefaultButton 
+            @click="emit('update:modelValue', false)" 
+            :buttonClass="buttonCancelClass" 
+            :loading="false"
               :buttonSize="buttonSize">
               {{ cancelText }}
             </DefaultButton>
 
-            <DefaultButton @click="emit('confirm')" :buttonClass="buttonConfirmClass" :buttonSize="buttonSize"
-              :loading="loading">
+            <DefaultButton 
+            @click="emit('confirm')" 
+            :buttonClass="buttonConfirmClass" 
+            :buttonSize="buttonSize"
+            :loading="loading">
               {{ confirmText }}
             </DefaultButton>
           </div>

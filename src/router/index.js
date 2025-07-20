@@ -1,7 +1,7 @@
 import { useToggleStore } from '@/stores/toggle'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth'
-import { redirectIfUnauthenticated, redirectIfAuthenticated } from './guards'
+import { redirectIfUnauthenticated, redirectIfAuthenticated, redirectIfCompanyNotGetPlans } from './guards'
 
 
 
@@ -11,12 +11,15 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }
   },
-  
+
   routes: [
     {
       path: '/',
       name: '',
-      beforeEnter: redirectIfUnauthenticated,
+      beforeEnter: [
+        redirectIfUnauthenticated,
+        redirectIfCompanyNotGetPlans
+      ],
       component: () => import('../layouts/MainLayout.vue'),
       children: [
         {
@@ -122,7 +125,7 @@ router.beforeEach((to, from, next) => {
   authStore.sanctum()
   const useToggle = useToggleStore()
   useToggle.sidebar = false
-  
+
   next()
 })
 

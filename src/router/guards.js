@@ -18,5 +18,11 @@ export const redirectIfAuthenticated = (to, from, next) => {
 }
 
 export const redirectIfCompanyNotGetPlans = (to, from, next) => {
+    const meStore = useMeStore()
     
+    if (!meStore.hasSubscription) {
+        next({ name: 'plans' })
+    } else {
+        next()
+    }
 }

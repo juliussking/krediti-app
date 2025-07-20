@@ -6,6 +6,7 @@ export const useClientStore = defineStore("client", {
     state: () => ({
         clients: [],
         clientProfile: {},
+        clientProfileReferenceContacts:[],
         clients_count: 0,
         clients_active: 0,
         clients_paid_off: 0,
@@ -20,7 +21,13 @@ export const useClientStore = defineStore("client", {
 
             return axios.get('/api/clients')
                 .then(response => {
+                    
                     this.clients = response.data.clients;
+                    this.clients_count = response.data.clients_count;
+                    this.clients_active = response.data.clients_active;
+                    this.clients_paid_off = response.data.clients_paid_off;
+                    this.clients_due = response.data.clients_due;
+
                 })
                 .finally(() => {
                     loadingStore.stopLoading();
@@ -51,10 +58,13 @@ export const useClientStore = defineStore("client", {
 
             return axios.get(`/api/client-profile/${clientId}`)
                 .then(response => {
-                    this.clientProfile = response.data.data;
+                    console.log(response);
+
+                    this.clientProfile = response.data.client;
+                    this.clientProfileReferenceContacts = response.data.referenceContacts;
                 })
                 .finally(() => {
-                    
+
                     loadingStore.stopLoading();
 
                 })
@@ -91,13 +101,13 @@ export const useClientStore = defineStore("client", {
             const index = this.clients.findIndex(client => client.id === clientId);
 
             return axios.delete(`/api/client-delete/${clientId}`)
-            .then(() => {
-                
-                if(index >= 0) {
-                    this.clients.splice(index, 1);
-                }
-            });
-            
+                .then(() => {
+
+                    if (index >= 0) {
+                        this.clients.splice(index, 1);
+                    }
+                });
+
         },
 
     },

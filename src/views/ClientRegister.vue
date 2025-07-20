@@ -234,7 +234,43 @@ const { handleSubmit, errors, isSubmitting } = useForm({
   initialValues: {
     reference_contacts: [
       { name: '', phone: '', relation: '' }
-    ]
+    ],
+    name: 'Jon Snow',
+    identity: '123456789',
+    gender: 'Masculino',
+    phone: '(11) 98765-4321',
+    marital_status: 'Solteiro',
+    birth_date: '1990-01-01',
+    email: 'julio@email',
+
+    zipcode: '12345678',
+    street: 'Av. Paulista',
+    city: 'Sao Paulo',
+    neighbor: 'Bairro',
+    client_number: "123",
+    reference_point: 'Ponto de referencia',
+
+    person_type: 'Fisica',
+    cpf: '123456789',
+    cnpj: '1213123121',
+
+    office_name: 'Empresa',
+    office_phone: '(11) 98765-4321',
+    office_zipcode: '12345678',
+    office_street: 'Av. Paulista',
+    office_neighbor: 'Bairro',
+    office_city: 'Sao Paulo',
+    office_number: "123",
+    office_cnpj: '1213123121',
+    office_role: 'Cargo',
+    office_salary: "1000",
+    office_payment_date: '2022-01-01',
+    office_admission_date: '2022-01-01',
+
+    amount_requested: '1000',
+    tax: "1.19",
+
+    observations: 'Observações',
   }
 })
 

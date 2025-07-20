@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 import { useMeStore } from "./me";
-import VerifyEmail from "@/views/auth/VerifyEmail.vue";
 
 
 

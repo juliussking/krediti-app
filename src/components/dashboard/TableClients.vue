@@ -2,7 +2,8 @@
   <div class="bg-white shadow rounded overflow-x-auto">
     <div class="p-4 border-b border-gray-200 flex justify-between">
       <h2 class="text-lg font-semibold text-gray-800">Clientes</h2>
-      <RouterLink :to="{ name: 'client-register' }" class="text-sm text-blue-600 font-semibold bg-blue-50 px-2 py-1 rounded hover:bg-blue-100  cursor-pointer mr-3">
+      <RouterLink :to="{ name: 'client-register' }"
+        class="text-sm text-blue-600 font-semibold bg-blue-50 px-2 py-1 rounded hover:bg-blue-100  cursor-pointer mr-3">
         Novo cliente
       </RouterLink>
 
@@ -19,8 +20,7 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        <tr v-for="client in clientStore.clients" :key="client.id" class="hover:bg-gray-50"
-          >
+        <tr v-for="client in clientStore.clients" :key="client.id" class="hover:bg-gray-50">
           <td class="px-6 py-4">{{ client.name }}</td>
           <td class="px-6 py-4">{{ client.phone }}</td>
           <td class="px-6 py-4">
@@ -44,22 +44,15 @@
       </tbody>
     </table>
   </div>
-  <BaseModal 
-  v-model="deleteClientModal.isOpen.value"
-  modalTitle="Excluir cliente"
-  buttonConfirmClass="bg-red-600 hover:bg-red-700 text-white"
-  buttonCancelClass="bg-gray-200 hover:bg-gray-300 text-gray-800"
-  cancelText="Cancelar"
-  confirmText="Sim, excluir"
-  @confirm="deleteClient(clientToDelete.id)"
-  buttonSize="w-25 px-2 py-1"
-  :loading="deleteClientModal.loading.value"
-  >
-  <ErrorFeedbackMessage :feedbackMessage="feedbackMessage" />
+  <BaseModal v-model="deleteClientModal.isOpen.value" modalTitle="Excluir cliente"
+    buttonConfirmClass="bg-red-600 hover:bg-red-700 text-white"
+    buttonCancelClass="bg-gray-200 hover:bg-gray-300 text-gray-800" cancelText="Cancelar" confirmText="Sim, excluir"
+    @confirm="deleteClient(clientToDelete.id)" buttonSize="w-25 px-2 py-1" :loading="deleteClientModal.loading.value">
+    <ErrorFeedbackMessage :feedbackMessage="feedbackMessage" />
 
     <p class="text-gray-800">Tem certeza que deseja excluir o cliente <span class="font-semibold">
-    {{ clientToDelete.name }}</span>?
-  </p>
+        {{ clientToDelete.name }}</span>?
+    </p>
   </BaseModal>
 </template>
 
@@ -73,7 +66,7 @@ import { useClientStore } from '@/stores/client';
 const clientStore = useClientStore();
 import DropClientsTable from './DropClientsTable.vue';
 import BaseModal from '../layout/BaseModal.vue';
-import ErrorFeedbackMessage from '../ErrorFeedbackMessage.vue';
+import ErrorFeedbackMessage from '../FeedbackMessage.vue';
 
 const clientToDelete = ref({});
 
@@ -91,19 +84,20 @@ function deleteClient(clientId) {
   deleteClientModal.loading.value = true
 
   return clientStore.deleteClient(clientId)
-  .then(() => {
+    .then(() => {
 
-    deleteClientModal.close();
-    
-  }).catch((error)=> {
-    
-    feedbackMessage.value = error.message
+      deleteClientModal.close();
 
-  });
+    }).catch((error) => {
+
+      feedbackMessage.value = error.message
+
+    });
 }
 
 onMounted(() => {
   clientStore.getClients();
+  clientStore.getStatistics();
 });
 
 

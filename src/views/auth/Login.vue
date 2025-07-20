@@ -6,7 +6,7 @@
 
       <p class="text-gray-500 text-sm text-center mb-6 mt-2">Faça login para continuar</p>
 
-      <ErrorFeedbackMessage :feedbackMessage="feedbackMessage" />
+      <FeedbackMessage :status="status" :feedbackMessage="feedbackMessage" />
 
       <form @submit.prevent="submit" class="space-y-4">
         <div>
@@ -65,9 +65,11 @@ import BaseInput from '@/components/layout/BaseInput.vue'
 import ErrorsForm from '@/components/registerSteps/ErrorsForm.vue'
 import LabelForm from '@/components/registerSteps/LabelForm.vue'
 import { ref } from 'vue'
-import ErrorFeedbackMessage from '@/components/ErrorFeedbackMessage.vue'
 
-import axios from 'axios';
+import FeedbackMessage from '@/components/FeedbackMessage.vue'
+
+const feedbackMessage = ref('')
+const status = ref('')
 
 const schema = object({
   email: string().required().email().label('Email'),
@@ -83,20 +85,20 @@ const { value: password } = useField('password')
 
 const submit = handleSubmit((values) => {
 
-  feedbackMessage.value = ''
-
+  
   return authStore.login(values.email, values.password)
-    .then(() => {
+  .then(() => {    
       router.push({ name: 'dashboard' })
     })
     .catch((error) => {
+
+      status.value = 'error'
 
       feedbackMessage.value = error.message        
 
     })
 })
 
-const feedbackMessage = ref('')
 
 
 
