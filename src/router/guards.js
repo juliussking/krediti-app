@@ -17,12 +17,14 @@ export const redirectIfAuthenticated = (to, from, next) => {
     }
 }
 
-export const redirectIfCompanyNotGetPlans = (to, from, next) => {
+export const redirectIfCompanyNotGetPlans = async (to, from, next) => {
     const meStore = useMeStore()
-    
-    if (!meStore.hasSubscription) {
-        next({ name: 'plans' })
-    } else {
-        next()
+
+    if (!meStore.user.hasSubscription) {
+
+        return await next({ name: 'plans' })
+
     }
+
+    next()
 }

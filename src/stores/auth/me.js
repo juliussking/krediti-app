@@ -4,7 +4,6 @@ import axios from "axios";
 export const useMeStore = defineStore("me", {
     state: () => ({
         user: null,
-        hasSubscription: null
     }),
     actions: {
         getMe() {
@@ -12,9 +11,7 @@ export const useMeStore = defineStore("me", {
             .then(response => {                
                 
                 this.user = response.data.data;
-                this.hasSubscription = response.data.data.hasSubscription;
-                
-                
+
             });
         }
     },

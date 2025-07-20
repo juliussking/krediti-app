@@ -22,6 +22,7 @@ export const useAuthStore = defineStore("auth", {
             })
                 .then(response => {
                     const meStore = useMeStore();
+                    meStore.getMe();
                     meStore.user = response.data.data;
 
                 });
