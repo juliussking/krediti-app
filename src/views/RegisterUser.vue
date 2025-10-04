@@ -18,6 +18,28 @@
               </span>
             </div>
 
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-600 mb-1">Telefone</label>
+              <input type="text" :class="[
+                'border p-2 rounded w-full focus:outline-none',
+                errors.phone ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+              ]" v-model="phone" />
+              <span>
+                <p class="text-red-500 text-xs mt-1" v-if="errors.phone">{{ errors.phone }}</p>
+              </span>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-600 mb-1">Data de nascimento</label>
+              <input type="date" :class="[
+                'border p-2 rounded w-full focus:outline-none',
+                errors.birthday ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+              ]" v-model="birthday" />
+              <span>
+                <p class="text-red-500 text-xs mt-1" v-if="errors.birthday">{{ errors.birthday }}</p>
+              </span>
+            </div>
+
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-1">Função</label>
               <select :class="[
@@ -91,11 +113,16 @@ const { roles } = storeToRefs(roleStore);
 import { useField, useForm } from 'vee-validate';
 import { object, string } from 'yup';
 
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore()
+
 const schema = object({
   name: string().required().label('Nome'),
   email: string().required().email().label('E-mail'),
   password: string().required().label('Senha'),
-  role: string().required().label('Função')
+  role: string().required().label('Função'),
+  phone: string().required().label('Telefone'),
+  birthday: string().required().label('Data de nascimento'),
 })
 
 const { handleSubmit, errors, isSubmitting } = useForm({
@@ -103,13 +130,15 @@ const { handleSubmit, errors, isSubmitting } = useForm({
 })
 
 const submit = handleSubmit((values) => {
-  //SUBMIT
+  return userStore.userRegister(values)
 })
 
 const { value: name } = useField('name')
 const { value: email } = useField('email')
 const { value: role } = useField('role')
 const { value: password } = useField('password')
+const { value: phone } = useField('phone')
+const { value: birthday } = useField('birthday')
 
 
 

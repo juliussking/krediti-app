@@ -6,7 +6,6 @@ export const formatCurrency = (value) => {
         {
             style: 'currency',
             currency: 'BRL'
-
     })
 }
 

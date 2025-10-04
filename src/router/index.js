@@ -115,6 +115,16 @@ const router = createRouter({
       path: '/planos',
       name: 'plans',
       component: () => import('../views/Plans.vue'),
+    },
+    {
+      path: '/sucesso-assinatura',
+      name: 'subscription-success',
+      component: () => import('../views/SubscriptionSuccess.vue'),
+    },
+    {
+      path: '/erro-assinatura',
+      name: 'subscription-error',
+      component: () => import('../views/SubscriptionError.vue'),
     }
 
   ],

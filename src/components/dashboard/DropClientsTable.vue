@@ -12,7 +12,7 @@
       leave-from="transform opacity-100 scale-100" leave-to="transform opacity-0 scale-95">
 
       <MenuItems
-        class="absolute right-[65%] z-50 w-48 origin-top-right rounded-l-md rounded-br-md border border-gray-200 bg-white shadow">
+        class="absolute right-[70%] z-50 w-48 rounded-l-md rounded-br-md border border-gray-200 bg-white shadow">
         <MenuItem v-slot="{ active }">
         <RouterLink :to="{ name: 'client-profile', params: { id: client.id } }" :class="[
           active ? 'bg-blue-50 text-blue-500' : 'text-gray-800',
@@ -76,7 +76,4 @@ const props = defineProps({
 const emit = defineEmits([
   'deleteClient'
 ])
-
-
-
 </script>

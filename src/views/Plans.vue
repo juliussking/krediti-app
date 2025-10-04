@@ -11,6 +11,9 @@
     </span>
 
     <template v-else>
+      <div class="w-full flex">
+        <RouterLink :to="{ name: 'logout' }" class="text-blue-500 hover:underline ms-auto mr-5">Logout</RouterLink>
+      </div>
       <div class="mx-auto max-w-4xl text-center">
         <h2 class="text-7xl font-semibold text-gray-900">{{ plan.name }}</h2>
         <p class="mt-2 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-3xl">Escolha o melhor
@@ -70,9 +73,20 @@
               24-hour support response time
             </li>
           </ul>
-          <button @click="subscribeMonthly(plan.id)" aria-describedby="tier-hobby"
-            class="mt-8 w-full block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-blue-600 ring-1 ring-blue-200 ring-inset hover:ring-blue-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:mt-10">Assinar
-            plano mensal</button>
+          <DefaultButton buttonClass="px-4 mt-8 bg-blue-500 text-white py-2 disabled:bg-gray-50
+            cursor-pointer disabled:cursor-not-allowed hover:bg-blue-600" :disabled="loadingMonthly.isLoading.value"
+            buttonSize="w-full p-2" @click="subscribeMonthly(plan.id)" type="button">
+
+            <div v-if="loadingMonthly.isLoading.value">
+
+              <Loading />
+
+            </div>
+            <template v-else>
+              Assinar plano mensal
+            </template>
+
+          </DefaultButton>
         </div>
         <div class="relative rounded-3xl bg-gray-900 p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
           <h3 id="tier-enterprise" class="text-base/7 font-semibold text-blue-400">Anual</h3>
@@ -138,19 +152,18 @@
               Custom integrations
             </li>
           </ul>
-          {{ loadingYearly.isLoading }}
-          <DefaultButton buttonClass="px-4 mt-8 bg-blue-500 text-white py-2 disabled:opacity-50
-            cursor-pointer disabled:cursor-not-allowed hover:bg-blue-600" buttonSize="w-full p-2"
-            @click="subscribeMonthly(plan.id)" type="button">
+          <DefaultButton buttonClass="px-4 mt-8 bg-blue-500 text-white py-2 disabled:bg-white
+            cursor-pointer disabled:cursor-not-allowed hover:bg-blue-600" :disabled="loadingYearly.isLoading.value"
+            buttonSize="w-full p-2" @click="subscribeYearly(plan.id)" type="button">
 
-          <template v-if="loadingYearly.isLoading">
+            <div v-if="loadingYearly.isLoading.value">
 
-            <Loading />
+              <Loading />
 
-          </template>
-          <template v-else>
-            Assinar plano Anual
-          </template>
+            </div>
+            <template v-else>
+              Assinar plano anual
+            </template>
 
           </DefaultButton>
         </div>
@@ -164,8 +177,9 @@ import DefaultButton from '@/components/DefaultButton.vue';
 import { formatCurrency } from '@/utils/helpers';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useLoading } from '@/composables/useLoading';
 import Loading from '@/components/layout/Loading.vue';
+import { useLoading } from '@/composables/useLoading';
+
 const loadingMonthly = useLoading()
 const loadingYearly = useLoading()
 
@@ -190,27 +204,30 @@ function getPlans() {
 }
 
 function subscribeMonthly(planId) {
+
+  loadingMonthly.startLoading()
+
   frequency.value = 'monthly'
-  subscribe(planId)
+  subscribe(planId);
 }
 
 function subscribeYearly(planId) {
+
+  loadingYearly.startLoading()
+
   frequency.value = 'yearly'
+
   subscribe(planId)
+  
 }
 
 
 function subscribe(planId) {
-
   axios.post('/api/subscription', {
     plan_id: planId,
     frequency: frequency.value
-
   }).then(response => {
-    // router.push(response.data.subscription_url) 
     window.location.href = response.data.subscription_url
-  }).finally(() => {
-    loadingMonthly.isLoading = false
   })
 }
 

@@ -94,7 +94,6 @@
   v-model="title" />
   <ErrorsForm :errors="errors" attr="title" />
 </form>
-
 </BaseModal>
 </template>
 
@@ -107,10 +106,8 @@ import LabelForm from '@/components/registerSteps/LabelForm.vue';
 import BaseInput from '@/components/layout/BaseInput.vue';
 import BaseModal from '@/components/layout/BaseModal.vue';
 
-
 import { useModal } from '@/composables/useModal';
 const newTaskModal = useModal()
-
 
 import { useTaskStore } from '@/stores/tasks';
 

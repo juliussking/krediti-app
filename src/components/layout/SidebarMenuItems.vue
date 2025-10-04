@@ -93,6 +93,15 @@
                     <p>Configurações</p>
                 </li>
             </RouterLink>
+            <RouterLink :to="{ name: 'settings' }">
+                <li
+                    class="p-2 cursor-pointer text-gray-700 hover:text-blue-500 hover:bg-blue-50 flex items-center gap-3">
+                    <span class="material-symbols-outlined">
+                        settings
+                    </span>
+                    <p>Caixa</p>
+                </li>
+            </RouterLink>
         </ul>
     </div>
 

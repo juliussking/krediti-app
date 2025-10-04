@@ -42,10 +42,9 @@
         </DefaultButton>
 
       </form>
-
       <p class="mt-4 text-sm text-center text-gray-600">
         Ainda não tem uma conta? <RouterLink :to="{ name: 'register' }" class="text-blue-500 hover:underline">
-          Cadastre-se</RouterLink>
+          Cadastre sua empresa</RouterLink>
       </p>
     </div>
   </div>
@@ -59,8 +58,6 @@ const authStore = useAuthStore()
 import router from '@/router'
 import Loading from '@/components/layout/Loading.vue'
 
-import { useForm, useField } from 'vee-validate'
-import { object, string } from 'yup'
 import BaseInput from '@/components/layout/BaseInput.vue'
 import ErrorsForm from '@/components/registerSteps/ErrorsForm.vue'
 import LabelForm from '@/components/registerSteps/LabelForm.vue'
@@ -71,6 +68,8 @@ import FeedbackMessage from '@/components/FeedbackMessage.vue'
 const feedbackMessage = ref('')
 const status = ref('')
 
+import { useForm, useField } from 'vee-validate'
+import { object, string } from 'yup'
 const schema = object({
   email: string().required().email().label('Email'),
   password: string().required().label('Senha')
@@ -85,6 +84,8 @@ const { value: password } = useField('password')
 
 const submit = handleSubmit((values) => {
 
+  feedbackMessage.value = ''
+  status.value = ''
   
   return authStore.login(values.email, values.password)
   .then(() => {    
@@ -94,7 +95,6 @@ const submit = handleSubmit((values) => {
     .catch((error) => {
 
       status.value = 'error'
-
       feedbackMessage.value = error.message        
 
     })

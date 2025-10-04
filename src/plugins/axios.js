@@ -6,7 +6,6 @@ axios.defaults.withCredentials = true
 
 import { errorMessage } from '@/utils/helpers'
 
-
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {

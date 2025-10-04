@@ -7,6 +7,10 @@ import axios from "axios";
 export const useUserStore = defineStore("user", {
     state: () => ({
         users: null,
+        meta:{
+            current_page: 1,
+            last_page: 1
+        }
     }),
     actions: {
 
@@ -18,7 +22,7 @@ export const useUserStore = defineStore("user", {
 
             .then((response) => {
 
-                this.users = response.data
+                this.users = response.data.users
                 
             })
             .finally(() => {
@@ -27,5 +31,25 @@ export const useUserStore = defineStore("user", {
                 
             })
         },
+        getUserPage(page = 1) {
+
+            return axios.get(`/api/users?page=${page}`)
+            .then((response) => {
+                this.users = response.data.users;
+                this.meta = response.data.meta;
+            })
+        },
+
+        userRegister(values){
+            return axios.post('/api/user-register', {
+                'name': values.name,
+                'email': values.email,
+                'password': values.password,
+                'birthday': values.birthday,
+                'phone': values.phone,
+            }).then(response => {
+                console.log(response);
+            })
+        }
     },
 });

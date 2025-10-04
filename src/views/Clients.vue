@@ -74,5 +74,10 @@ import CardTop from '@/components/dashboard/CardTop.vue';
 import TableClients from '@/components/dashboard/TableClients.vue';
 
 import { useClientStore } from '@/stores/client';
+import { onMounted } from 'vue';
 const clientStore = useClientStore();
+
+onMounted(() => {
+  clientStore.getStatistics();
+});
 </script>
