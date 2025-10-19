@@ -8,7 +8,7 @@
 
         <div class="w-[40px] absolute right-3 lg:right-5 cursor-pointer" v-if="!toggleStore.sidebar">
 
-            <img :src="meStore.user.profile?.avatar || '/assets/img/default/default-avatar.jpg'" alt="" class="w-full object-cover rounded-full"
+            <img :src="meStore.user.avatar || '/assets/img/default/default-avatar.jpg'" alt="" class="w-full object-cover rounded-full"
                 @click="mostrarDropdown = !mostrarDropdown">
 
             <transition name="dropdown">
@@ -39,8 +39,6 @@
             </transition>
 
         </div>
-
-
     </div>
 </template>
 

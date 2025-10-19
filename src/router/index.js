@@ -63,9 +63,19 @@ const router = createRouter({
           component: () => import('../views/Solicitations.vue'),
         },
         {
+          path: '/pagamentos',
+          name: 'payments',
+          component: () => import('../views/Payments.vue'),
+        },
+        {
           path: '/solicitar-credito',
           name: 'credit-request',
           component: () => import('../views/CreditRequest.vue'),
+        },
+        {
+          path: '/receber-pagamento',
+          name: 'receive-payment',
+          component: () => import('../views/ReceivePayment.vue'),
         },
         {
           path: '/cadastrar-cliente',

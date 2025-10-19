@@ -7,9 +7,12 @@ import axios from "axios";
 export const useUserStore = defineStore("user", {
     state: () => ({
         users: null,
+        users_count: 0,
         meta:{
             current_page: 1,
-            last_page: 1
+            last_page: 1,
+            users_count: 0,
+            users_active: 0
         }
     }),
     actions: {
@@ -22,7 +25,8 @@ export const useUserStore = defineStore("user", {
 
             .then((response) => {
 
-                this.users = response.data.users
+                this.users = response.data.users;
+                this.meta = response.data.meta;
                 
             })
             .finally(() => {

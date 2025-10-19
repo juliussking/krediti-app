@@ -2,7 +2,7 @@
   <div class="bg-white shadow rounded min-h-[650px] overflow-hidden relative">
     <!-- Cabeçalho -->
     <div class="p-4 border-b border-gray-200 flex sm:flex-row sm:items-center justify-between gap-3">
-      <h2 class="text-lg font-semibold text-gray-800">Solicitações</h2>
+      <h2 class="text-lg font-semibold text-gray-800">Pagamentos</h2>
 
       <div class="flex items-center gap-3 relative">
         <!-- Botão filtro -->
@@ -16,9 +16,9 @@
 
         <!-- Botão Nova Solicitação -->
         <p
-          class="text-sm text-blue-600 font-semibold bg-blue-50 px-3 py-2 rounded hover:bg-blue-100 cursor-pointer"
+          class="text-sm text-green-600 font-semibold bg-green-50 px-3 py-2 rounded hover:bg-green-100 cursor-pointer"
         >
-          Nova solicitação
+          Novo pagamento
         </p>
 
         <!-- Dropdown de Filtros -->
@@ -28,7 +28,7 @@
         >
           <!-- Cabeçalho -->
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-gray-800 font-semibold text-sm">Filtrar solicitações</h3>
+            <h3 class="text-gray-800 font-semibold text-sm">Filtrar pagamentos</h3>
             <span
               class="material-symbols-outlined cursor-pointer text-gray-600 hover:text-gray-800"
               @click="showFilter = false"
@@ -44,16 +44,15 @@
               class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none"
             >
               <option value="">Todos</option>
-              <option value="Aprovada">Aprovada</option>
-              <option value="Recusada">Recusada</option>
-              <option value="Pendente">Pendente</option>
-              <option value="Contra-oferta">Contra-oferta</option>
+              <option value="Aprovada">Total</option>
+              <option value="Recusada">Fator</option>
+              <option value="Pendente">Parcial</option>
             </select>
           </div>
 
           <!-- Nome ou ID -->
           <div class="mb-3">
-            <label class="text-xs text-gray-500 font-medium">Nome do cliente ou ID</label>
+            <label class="text-xs text-gray-500 font-medium">Nome / ID</label>
             <input
               v-model="filters.search"
               type="text"
@@ -64,7 +63,7 @@
 
           <!-- Data de criação -->
           <div class="mb-3">
-            <p class="text-xs text-gray-500 font-medium mb-1">Data de criação</p>
+            <p class="text-xs text-gray-500 font-medium mb-1">Data de pagamento</p>
             <div class="flex gap-2">
               <input
                 v-model="filters.startDate"
@@ -81,12 +80,12 @@
 
           <!-- Botões -->
           <div class="flex justify-between mt-4">
-            <button @click="resetFilters" class="text-gray-600 text-sm hover:text-gray-800">
+            <button @click="resetFilters" class="text-gray-600 text-sm hover:text-gray-800 cursor-pointer">
               Limpar
             </button>
             <button
               @click="applyFilters"
-              class="text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md"
+              class="text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md cursor-pointer"
             >
               Aplicar
             </button>
@@ -100,50 +99,45 @@
       <table class="hidden sm:table min-w-full divide-y divide-gray-200 text-sm">
         <thead class="bg-gray-50 text-gray-600 uppercase text-xs text-left">
           <tr>
-            <th class="px-6 py-3">Feita por</th>
-            <th class="px-6 py-3">Valor solicitado</th>
-            <th class="px-6 py-3">Contra-oferta</th>
-            <th class="px-6 py-3">Valor aprovado</th>
-            <th class="px-6 py-3">Taxa</th>
+            <th class="px-6 py-3">ID</th>
+            <th class="px-6 py-3">Cliente</th>
+            <th class="px-6 py-3">Recebido por</th>
+            <th class="px-6 py-3">Valor</th>
             <th class="px-6 py-3">Total</th>
-            <th class="px-6 py-3">Status</th>
-            <th class="px-6 py-3">Criada em</th>
+            <th class="px-6 py-3">Tipo de pagamento</th>
+            <th class="px-6 py-3">Data</th>
             <th class="px-6 py-3 text-center">Ação</th>
           </tr>
         </thead>
 
         <tbody class="divide-y divide-gray-100">
           <tr
-            v-for="solicitation in solicitationStore.solicitations"
-            :key="solicitation.id"
+            v-for="payment in paymentStore.payments"
+            :key="payment.id"
             class="hover:bg-gray-50 transition-colors"
           >
-            <td class="px-6 py-4 whitespace-nowrap">{{ solicitation.user_name }}</td>
-            <td class="px-6 py-4 font-semibold">{{ formatCurrency(solicitation.amount_requested) }}</td>
-            <td class="px-6 py-4 font-semibold">{{ formatCurrency(solicitation.counteroffer) }}</td>
-            <td class="px-6 py-4 font-semibold">{{ formatCurrency(solicitation.amount_approved) }}</td>
-            <td class="px-6 py-4">{{ solicitation.tax }}</td>
-            <td class="px-6 py-4 font-semibold">{{ formatCurrency(solicitation.total) }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span
-                :class="{
-                  'text-green-900 bg-green-300 px-2 py-1 rounded-full': solicitation.status === 'Aprovada',
-                  'text-red-900 bg-red-300 px-2 py-1 rounded-full': solicitation.status === 'Recusada',
-                  'text-gray-700 bg-gray-200 px-2 py-1 rounded-full': solicitation.status === 'Pendente',
-                  'text-orange-900 bg-orange-300 px-2 py-1 rounded-full': solicitation.status === 'Contra-oferta'
-                }"
-              >
-                {{ solicitation.status }}
+            <td class="px-6 py-4 whitespace-nowrap">{{payment.id}}</td>
+            <td class="px-6 py-4 font-semibold">
+              {{payment.user_name}}
+            </td>
+            <td class="px-6 py-4">{{payment.client_name}}</td>
+            <td class="px-6 py-4 font-semibold">{{ formatCurrency(payment.amount) }}</td>
+            <td class="px-6 py-4 font-semibold">{{ formatCurrency(payment.client_debit) }}</td>
+            <td class="px-6 py-4">
+              <span :class="{
+                'text-green-900 bg-green-300 px-2 py-1 rounded-full': payment.payment_type === 'Fator',
+                'text-orange-900 bg-orange-300 px-2 py-1 rounded-full': payment.payment_type === 'Total',
+                'text-blue-700 bg-blue-200 px-2 py-1 rounded-full': payment.payment_type === 'Parcial',
+                'text-gray-500 border border-gray-400 px-2 py-1 rounded-full': payment.payment_type === 'Novo'
+              }">
+                {{ payment.payment_type }}
               </span>
             </td>
-            <td class="px-6 py-4 font-semibold">{{ formatDate(solicitation.solicitation_date) }}</td>
+            <td class="px-6 py-4">{{ formatDate(payment.payment_date) }}</td>
             <td class="px-6 py-4 relative text-center">
-              <DropSolicitationTable
-                :solicitation="solicitation"
-                @deleteSolicitation="deleteSolicitation"
-                @approveSolicitation="approveSolicitation"
-                @counterofferSolicitation="counterofferSolicitation"
-                @recuseSolicitation="recuseSolicitation"
+              <DropPaymentsTable
+                :payments="paymentStore.payments"
+                @deletePayment="deletePayment"
               />
             </td>
           </tr>
@@ -151,31 +145,49 @@
       </table>
 
       <!-- Versão mobile -->
-      <div class="sm:hidden divide-y divide-gray-100">
+     <div class="sm:hidden divide-y divide-gray-100">
         <div
-          v-for="solicitation in solicitationStore.solicitations"
-          :key="solicitation.id"
+          v-for="payment in paymentStore.payments"
+          :key="payment.id"
           class="p-4 flex flex-col gap-2 border-b hover:bg-gray-50"
         >
           <div class="flex justify-between items-center relative">
-            <h3 class="font-semibold text-gray-800">{{ solicitation.user_name }}</h3>
+            <h3 class="font-semibold text-gray-800">{{payment.client_name}}</h3>
             <DropSolicitationTable
-              :solicitation="solicitation"
-              @deleteSolicitation="deleteSolicitation"
-              @approveSolicitation="approveSolicitation"
-              @counterofferSolicitation="counterofferSolicitation"
-              @recuseSolicitation="recuseSolicitation"
+              :solicitation="payment"
+              
             />
           </div>
           <p class="text-gray-600 text-sm">
-            <span class="font-semibold">Valor solicitado:</span>
-            {{ formatCurrency(solicitation.amount_requested) }}
+            <span class="font-semibold">ID:</span>
+            {{ payment.id }}
           </p>
           <p class="text-gray-600 text-sm">
-            <span class="font-semibold">Status:</span> {{ solicitation.status }}
+            <span class="font-semibold">Recebido por:</span> 
+            {{ payment.user_name }}
           </p>
           <p class="text-gray-600 text-sm">
-            <span class="font-semibold">Criada em:</span> {{ formatDate(solicitation.solicitation_date) }}
+            <span class="font-semibold">Valor:</span>
+            {{ formatCurrency(payment.amount) }}
+          </p>
+          <p class="text-gray-600 text-sm">
+            <span class="font-semibold">Total:</span>
+            {{ formatCurrency(payment.client_debit) }}
+          </p>
+          <p class="text-gray-600 text-sm">
+            <span class="font-semibold">Tipo:</span>
+            <span :class="{
+                'text-green-900 bg-green-300 px-2 py-1 rounded-full': payment.payment_type === 'Fator',
+                'text-orange-900 bg-orange-300 px-2 py-1 rounded-full': payment.payment_type === 'Total',
+                'text-blue-700 bg-blue-200 px-2 py-1 rounded-full': payment.payment_type === 'Parcial',
+                'text-gray-500 border border-gray-400 px-2 py-1 rounded-full': payment.payment_type === 'Novo'
+              }">
+                {{ payment.payment_type }}
+              </span>
+          </p>
+          <p class="text-gray-600 text-sm">
+            <span class="font-semibold">Data:</span>
+            {{ formatDate(payment.payment_date) }}
           </p>
         </div>
       </div>
@@ -183,21 +195,22 @@
 
     <!-- Paginação -->
     <Paginate
-    :currentPage="solicitationStore.meta.current_page"
-    :totalPages="solicitationStore.meta.last_page"
-    @change="solicitationStore.getSolicitationPage($event)"
+    :currentPage="paymentStore.meta.current_page"
+    :totalPages="paymentStore.meta.last_page"
+    @change="paymentStore.getPaymentPage($event)"
     />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useSolicitationStore } from '@/stores/solicitation'
+import { usePaymentStore } from '@/stores/payment'
 import DropSolicitationTable from './dashboard/DropSolicitationTable.vue'
 import Paginate from './dashboard/Paginate.vue'
 import { formatCurrency, formatDate } from '@/utils/helpers'
+import DropPaymentsTable from './dashboard/DropPaymentsTable.vue'
 
-const solicitationStore = useSolicitationStore()
+const paymentStore = usePaymentStore()
 
 const showFilter = ref(false)
 const filters = ref({
@@ -213,13 +226,12 @@ function resetFilters() {
 
 function applyFilters() {
   showFilter.value = false
-  solicitationStore.getSolicitations(filters.value)
+  paymentStore.getPayments(filters.value)
 }
 
-function deleteSolicitation(solicitation) { /* ... já implementado */ }
-function approveSolicitation(solicitation) { /* ... */ }
-function counterofferSolicitation(solicitation) { /* ... */ }
-function recuseSolicitation(solicitation) { /* ... */ }
+function deletePayment(id) {
+  paymentStore.deletePayment(id)
+}
 
-onMounted(() => solicitationStore.getSolicitations())
+onMounted(() => paymentStore.getPayments())
 </script>

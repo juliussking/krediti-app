@@ -70,12 +70,14 @@
                 <p>Solicitações</p>
             </li>
             </RouterLink>
+            <RouterLink :to="{ name: 'payments' }">
             <li class="p-2 cursor-pointer text-gray-700 hover:text-blue-500 hover:bg-blue-50 flex items-center gap-3">
                 <span class="material-symbols-outlined">
                     payments
                 </span>
                 <p>Pagamentos</p>
             </li>
+            </RouterLink>
             <RouterLink :to="{ name: 'company-info' }">
             <li class="p-2 cursor-pointer text-gray-700 hover:text-blue-500 hover:bg-blue-50 flex items-center gap-3">
                 <span class="material-symbols-outlined">

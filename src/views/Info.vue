@@ -55,8 +55,8 @@
           <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Status</label>
             <p
-              :class="companyStore.status == 'active' ? 'text-green-500 bg-green-100 inline border rounded-xl px-2 py-1' : 'text-red-500 bg-red-100 inline border rounded-xl px-2 py-1'">
-              {{ companyStore.status == 'active' ? 'Ativo' : 'Vencido' }}</p>
+              :class="[companyStore.status == 'active' ? 'text-green-500 bg-green-100 inline border rounded-xl px-2 py-1' : companyStore.status == 'trialing' ? 'text-yellow-500 bg-yellow-100 inline border rounded-xl px-2 py-1' : 'text-red-500 bg-red-100 inline border rounded-xl px-2 py-1', ]">
+              {{ companyStore.status == 'active' ? 'Ativo' : companyStore.status == 'trialing' ? 'Período de teste' : 'Inativo'  }}</p>
           </div>
         </div>
       </section>
@@ -80,8 +80,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
+import { onMounted } from 'vue'
 import { useCompanyStore } from '@/stores/company'
 import { storeToRefs } from 'pinia'
 import { formatCurrency, formatDate } from '@/utils/helpers'

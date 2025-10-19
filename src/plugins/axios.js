@@ -6,18 +6,28 @@ axios.defaults.withCredentials = true
 
 import { errorMessage } from '@/utils/helpers'
 
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(
+  function (response) {
     return response;
-}, function (error) {
-
-    const errorResponse = error.response
-    
-    const feedbackError = errorMessage(errorResponse.data.error)
-    
-    return Promise.reject({
+  }, 
+  function (error) {
+    // Se o servidor respondeu
+    if (error.response && error.response.data) {
+      const feedbackError = errorMessage(error.response.data.error)
+      return Promise.reject({
         message: feedbackError,
-        status: 400
-    });
-  });
+        status: error.response.status
+      });
+    } 
+    // Se não houve resposta (erro de rede, timeout etc.)
+    else {
+      return Promise.reject({
+        message: 'Erro de rede ou servidor indisponível',
+        status: 0
+      });
+    }
+  }
+);
+
 
 export default axios

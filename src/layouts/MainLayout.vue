@@ -8,7 +8,7 @@
             <div class="">
                 <Sidebar />
             </div>
-            {{ loadingStore.isLoading }}
+            <!-- {{ loadingStore.isLoading }} -->
 
             <div class="routerView bg-gray-100 w-full h-full p-3 pb-10">
 

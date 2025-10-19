@@ -21,7 +21,9 @@ export const useCompanyStore = defineStore("company", {
 
             return axios.get('/api/info-company')
                 .then(response => {
-                    console.log(response);
+
+                    console.log(response)
+
                     this.company = response.data.company;
                     this.due_date = response.data.due_date;
                     this.period_end = response.data.period_end;

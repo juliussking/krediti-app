@@ -14,22 +14,22 @@
     <CardTop cardTitleColor="text-transparent bg-clip-text bg-green-500 bg-gradient-to-r to-blue-600"
       cardLineColor="bg-green-400 bg-gradient-to-r to-blue-600">
       <template v-slot:mainInfo>
-        573
+        {{ userStore.meta.users_count }}
       </template>
 
       <template v-slot:subInfo>
-        Clientes
+        Total
       </template>
     </CardTop>
 
     <CardTop cardTitleColor="text-transparent bg-clip-text bg-indigo-500 bg-gradient-to-r to-purple-600"
       cardLineColor="bg-indigo-400 bg-gradient-to-r to-purple-600">
       <template v-slot:mainInfo>
-        423
+        {{ userStore.meta.users_active }}
       </template>
 
       <template v-slot:subInfo>
-        Clientes ativos
+        Ativos
       </template>
     </CardTop>
 
@@ -40,7 +40,7 @@
       </template>
 
       <template v-slot:subInfo>
-        Clientes vencidos
+        Inativos
       </template>
     </CardTop>
 
@@ -51,7 +51,7 @@
       </template>
 
       <template v-slot:subInfo>
-        Clientes quitados
+        Bloqueados
       </template>
     </CardTop>
   </div>
@@ -63,6 +63,8 @@
 
 <script setup>
 import CardTop from '@/components/dashboard/CardTop.vue';
-import DashboardHeader from '@/components/dashboard/DashboardHeader.vue';
 import TableUser from '@/components/dashboard/TableUser.vue';
+
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 </script>

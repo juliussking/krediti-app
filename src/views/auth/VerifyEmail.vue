@@ -54,8 +54,6 @@ const feedbackMessage = ref('')
 const status = ref('')
 
 
-console.log(route.query.token);
-
 authStore.verifyEmail(token)
   .then(() => {
     feedbackMessage.value = 'Email verificado com sucesso!'

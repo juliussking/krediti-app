@@ -2,7 +2,7 @@
 
     <div class="flex justify-between items-center mb-3">
 
-     <h1 class="text-xl text-gray-800 font-semibold">Solicitações</h1>     
+     <h1 class="text-xl text-gray-800 font-semibold">Pagamentos</h1>     
      <select class="border border-gray-300 p-1 rounded w-[150px] text-gray-800 bg-white"
      >
        <option value="2024">2024</option>
@@ -14,56 +14,56 @@
       <CardTop cardTitleColor="text-transparent bg-clip-text bg-green-500 bg-gradient-to-r to-blue-600"
         cardLineColor="bg-green-400 bg-gradient-to-r to-blue-600">
         <template v-slot:mainInfo>
-          {{ solicitationStore.meta.solicitations_count }}
+          {{ paymentStore.meta.payments_count }}
         </template>
 
         <template v-slot:subInfo>
-          Solicitações
+          Pagamentos
         </template>
       </CardTop>
 
       <CardTop cardTitleColor="text-transparent bg-clip-text bg-indigo-500 bg-gradient-to-r to-purple-600"
         cardLineColor="bg-indigo-400 bg-gradient-to-r to-purple-600">
         <template v-slot:mainInfo>
-          {{ solicitationStore.meta.solicitations_approved }}
+          {{ paymentStore.meta.payments_total }}
         </template>
 
         <template v-slot:subInfo>
-          Solicitações aprovadas
+          Fator
         </template>
       </CardTop>
 
       <CardTop cardTitleColor="text-transparent bg-clip-text bg-orange-500 bg-gradient-to-r to-red-600"
         cardLineColor="bg-orange-400 bg-gradient-to-r to-red-600">
         <template v-slot:mainInfo>
-          {{ solicitationStore.meta.solicitations_reproved }}
+          {{ paymentStore.meta.payments_fator }}
         </template>
 
         <template v-slot:subInfo>
-          Solicitações reprovadas
+          Total
         </template>
       </CardTop>
 
       <CardTop cardTitleColor="text-transparent bg-clip-text bg-sky-500 bg-gradient-to-r to-indigo-600"
         cardLineColor="bg-sky-400 bg-gradient-to-r to-indigo-600">
         <template v-slot:mainInfo>
-          {{ solicitationStore.meta.solicitations_pending }}
+          {{ paymentStore.meta.payments_parcial }}
         </template>
 
         <template v-slot:subInfo>
-          Solicitações pendentes
+          Parcial
         </template>
       </CardTop>
     </div>
 
     <div class="chart bg-white lg:col-span-3 xl:col-span-5 border border-gray-200 mt-3">
-      <TableSolicitations />
+      <TablePayments />
     </div>
 </template>
 
 <script setup>
 import CardTop from '@/components/dashboard/CardTop.vue';
-import TableSolicitations from '@/components/TableSolicitations.vue';
-import { useSolicitationStore } from '@/stores/solicitation';
-const solicitationStore = useSolicitationStore();
+import TablePayments from '@/components/TablePayments.vue';
+import { usePaymentStore } from '@/stores/payment';
+const paymentStore = usePaymentStore();
 </script>

@@ -360,6 +360,10 @@
         <ClientProfileTableSolicitations />
       </div>
 
+      <div class="max-h-[450px]">
+        <ClientProfileTableLiberations />
+      </div>
+
       <hr class="border-t border-gray-300 my-4">
 
       <div class="max-h-[450px]">
@@ -386,6 +390,7 @@ const { clientProfile } = storeToRefs(clientStore);
 import { formatDate, formatZipcode, formatCurrency, formatPhone } from '@/utils/helpers';
 import ErrorFeedbackMessage from '@/components/FeedbackMessage.vue';
 import ClientProfileTableReferenceContacts from '@/components/ClientProfileTableReferenceContacts.vue';
+import ClientProfileTableLiberations from '@/components/ClientProfileTableLiberations.vue';
 
 const feedbackMessage = ref('');
 const editOffice = ref(false);
