@@ -7,9 +7,7 @@
       <div class="flex items-center gap-3 relative">
         <!-- Botão filtro -->
         <button @click="showFilter = !showFilter"
-          class="flex items-center gap-1 text-gray-600 hover:text-blue-600 bg-gray-50 hover:bg-blue-50 px-3 py-2 rounded-md transition-all duration-200 cursor-pointer"
-          
-          >
+          class="flex items-center gap-1 text-gray-600 hover:text-blue-600 bg-gray-50 hover:bg-blue-50 px-3 py-2 rounded-md transition-all duration-200 cursor-pointer">
           <span class="material-symbols-outlined text-[20px] ">filter_list</span>
           <span class="text-sm font-medium hidden sm:inline">Filtros</span>
         </button>
@@ -21,59 +19,60 @@
         </RouterLink>
 
         <!-- Dropdown de Filtros -->
-         
+
         <div v-if="showFilter"
-     class="absolute right-0 top-10 z-20 bg-white border border-gray-200 rounded-lg shadow-lg p-4 sm:w-[350px] animate-fadeIn">
+          class="absolute right-0 top-10 z-20 bg-white border border-gray-200 rounded-lg shadow-lg p-4 sm:w-[350px] animate-fadeIn">
 
-  <!-- Cabeçalho -->
-  <div class="flex items-center justify-between mb-3">
-    <h3 class="text-gray-800 font-semibold text-sm">Filtrar clientes</h3>
-    <span class="material-symbols-outlined cursor-pointer text-gray-600 hover:text-gray-800" @click="showFilter = false">
-      close
-    </span>
-  </div>
+          <!-- Cabeçalho -->
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-gray-800 font-semibold text-sm">Filtrar clientes</h3>
+            <span class="material-symbols-outlined cursor-pointer text-gray-600 hover:text-gray-800"
+              @click="showFilter = false">
+              close
+            </span>
+          </div>
 
-  <!-- Situação -->
-  <div class="mb-3">
-    <label class="text-xs text-gray-500 font-medium">Situação</label>
-    <select v-model="filters.type"
-            class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none">
-      <option value="">Todos</option>
-      <option value="Ativo">Ativos</option>
-      <option value="Vencido">Vencidos</option>
-      <option value="Quitado">Quitados</option>
-    </select>
-  </div>
+          <!-- Situação -->
+          <div class="mb-3">
+            <label class="text-xs text-gray-500 font-medium">Status</label>
+            <select v-model="filters.status"
+              class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none">
+              <option value="">Todos</option>
+              <option value="Ativo">Ativos</option>
+              <option value="Vencido">Vencidos</option>
+              <option value="Quitado">Quitados</option>
+            </select>
+          </div>
 
-  <div class="mb-3">
-    <label class="text-xs text-gray-500 font-medium">Tipo de pessoa</label>
-    <select v-model="filters.status"
-            class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none">
-      <option value="">Todos</option>
-      <option value="fisica">Física</option>
-      <option value="juridica">Juridica</option>
-    </select>
-  </div>
+          <div class="mb-3">
+            <label class="text-xs text-gray-500 font-medium">Tipo de pessoa</label>
+            <select v-model="filters.person_type"
+              class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none">
+              <option value="">Todos</option>
+              <option value="fisica">Física</option>
+              <option value="juridica">Juridica</option>
+            </select>
+          </div>
 
-  <!-- Nome ou ID -->
-  <div class="mb-3">
-    <label class="text-xs text-gray-500 font-medium">Nome ou ID</label>
-    <input v-model="filters.search" type="text" placeholder="Digite nome ou ID"
-           class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
-  </div>
+          <!-- Nome ou ID -->
+          <div class="mb-3">
+            <label class="text-xs text-gray-500 font-medium">Nome/email</label>
+            <input v-model="filters.search" type="text" placeholder="Digite nome ou email"
+              class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
+          </div>
 
-  <!-- Datas -->
-  <div class="mb-3">
-    <p class="text-xs text-gray-500 font-medium mb-1">Data de cadastro</p>
-    <div class="flex gap-2">
-      <input v-model="filters.registerStart" type="date"
-             class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
-      <input v-model="filters.registerEnd" type="date"
-             class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
-    </div>
-  </div>
+          <!-- Datas -->
+          <div class="mb-3">
+            <p class="text-xs text-gray-500 font-medium mb-1">Data de cadastro</p>
+            <div class="flex gap-2">
+              <input v-model="filters.registerStart" type="date"
+                class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
+              <input v-model="filters.registerEnd" type="date"
+                class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
+            </div>
+          </div>
 
-  <div class="mb-3">
+          <!-- <div class="mb-3">
     <p class="text-xs text-gray-500 font-medium mb-1">Data de nascimento</p>
     <div class="flex gap-2">
       <input v-model="filters.birthStart" type="date"
@@ -81,17 +80,20 @@
       <input v-model="filters.birthEnd" type="date"
              class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-400 focus:outline-none" />
     </div>
-  </div>
+  </div> -->
 
-  <!-- Botões -->
-  <div class="flex justify-between mt-4">
-    <button @click="resetFilters" class="text-gray-600 text-sm hover:text-gray-800">Limpar</button>
-    <button @click="applyFilters"
-            class="text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md">
-      Aplicar
-    </button>
-  </div>
-</div>
+          <!-- Botões -->
+          <div class="flex justify-between mt-4">
+            <button @click="resetFilters" class="text-gray-600 text-sm hover:text-gray-800">Limpar</button>
+            <button @click="applyFilters"
+              class="text-sm font-semibold text-white text-center bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md w-20">
+
+              <span v-if="!filterClientLoading">Aplicar</span>
+              <Loading v-if="filterClientLoading" />
+
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -161,8 +163,7 @@
     </div>
 
     <!-- Paginação -->
-    <Paginate :currentPage="clientStore.meta.current_page" :totalPages="clientStore.meta.last_page"
-      @change="clientStore.getClientPage($event)" />
+    <Paginate :links="clientStore.meta.links" @change="applyFilters" :loading="filterClientLoading" />
 
     <!-- Modal -->
     <BaseModal v-model="deleteClientModal.isOpen.value" modalTitle="Excluir cliente"
@@ -187,12 +188,19 @@ import BaseModal from '../layout/BaseModal.vue';
 import ErrorFeedbackMessage from '../FeedbackMessage.vue';
 import { formatDate, formatPhone } from '@/utils/helpers';
 import Paginate from './Paginate.vue';
+import qs from 'qs';
+import Loading from '../layout/Loading.vue';
+
+
+
 
 const clientStore = useClientStore();
 const deleteClientModal = useModal();
 const clientToDelete = ref({});
 const feedbackMessage = ref('');
 const showFilter = ref(false);
+
+
 
 const filters = ref({
   status: '',
@@ -201,8 +209,44 @@ const filters = ref({
   dateEnd: '',
   birthStart: '',
   birthEnd: '',
-  type: ''
+  person_type: ''
 });
+
+const filterClientLoading = ref(false);
+
+function applyFilters(url = null) {
+
+  filterClientLoading.value = true
+
+  const queryObject = qs.stringify({
+    filter: {
+      search: filters.value.search || undefined,
+      status: filters.value.status || undefined,
+      person_type: filters.value.person_type || undefined,
+      created_at: {
+        start: filters.value.dateStart || undefined,
+        end: filters.value.dateEnd || undefined
+      }
+    },
+  },
+    {
+      encode: false,
+      skipNulls: true
+    });
+
+  if (url) {
+    clientStore.getWithFilters(`${url}&${queryObject}`).finally(() => {
+      filterClientLoading.value = false
+      showFilter.value = false
+    });
+  } else {
+    // Primeira requisição (ou mudança de filtros)
+    clientStore.getWithFilters(`?page=1&${queryObject}`).finally(() => {
+      filterClientLoading.value = false
+      showFilter.value = false
+    });
+  }
+}
 
 function openDeleteDialog(client) {
   clientToDelete.value = client;
@@ -220,19 +264,13 @@ function deleteClient(clientId) {
 }
 
 function resetFilters() {
-  filters.value = { status: '', search: '', dateStart: '', dateEnd: '', birthEnd: '', birthStart: '', type: ''
- };
-}
-
-function applyFilters() {
-  showFilter.value = false;
-  // Aqui você pode chamar sua função de busca filtrada
-  clientStore.getClients(filters.value);
+  filters.value = {
+    status: '', search: '', dateStart: '', dateEnd: '', birthEnd: '', birthStart: '', person_type: ''
+  };
 }
 
 onMounted(() => {
   clientStore.getClients();
-  clientStore.getClientPage();
 });
 </script>
 

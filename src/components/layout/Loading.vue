@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center h-full" 
   >
-    <span class="loader border-2 border-blue-500"></span>
+    <span class="loader border-2 border-white-500"></span>
   </div>
 </template>
 

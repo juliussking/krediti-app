@@ -114,6 +114,7 @@ import { useTaskStore } from '@/stores/tasks';
 import { useField, useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import ErrorsForm from '@/components/registerSteps/ErrorsForm.vue';
+import { onUnmounted } from 'vue';
 
 const schema = object({
   title: string().required().label('Título'),
@@ -135,5 +136,6 @@ const taskStore = useTaskStore();
   })  
  
 })
+
 
 </script>

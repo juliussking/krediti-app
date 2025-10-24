@@ -1,7 +1,7 @@
 <template>
     <div 
       v-if="feedbackMessage"
-        :class="[status == 'error' ? 'w-full bg-red-500 border border-red-500 px-4 py-3 rounded mb-5' : 'w-full bg-green-600 border border-green-500 px-4 py-3 rounded mb-5']">
+        :class="[status == 'error' ? 'w-full bg-gradient-to-tl from-red-400 to-red-500 border border-red-500 px-4 py-3 rounded mb-5' : 'w-full bg-gradient-to-tl from-green-400 to-green-500 border border-green-500 px-4 py-3 rounded mb-5']">
         <h3 :class="[status == 'error' ? 'text-white text-center' : 'text-white text-center']">{{ feedbackMessage }}
           <span class="material-symbols-outlined">
             {{ status == 'error' ? 'error' : 'check' }}

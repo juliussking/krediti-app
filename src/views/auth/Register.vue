@@ -1,18 +1,24 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
-      <Logo />
-      <h2 class="text-4xl font-bold text-center text-gray-800">Cadastro da Empresa</h2>
-      <p 
-      v-if="status !== 'success'"
-      class="text-gray-500 text-sm text-center mb-6 mt-2">Preencha os dados para criar sua conta</p>
+  <div class="grid grid-cols-1 lg:grid-cols-2 h-screen">
+    <div class="bg-gray-100 flex flex-col justify-center items-center ">
 
+      <div class="logo w-full max-w-md">
+
+        <Logo />
+
+        <div class="sub my-8 text-start max-w-md">
+
+          <h2 class="text-3xl font-bold text-gray-800">Cadastro</h2>
+          <p class="subtitle text-gray-500 text-md">Insira seus dados para se cadastrar</p>
+        </div>
+      </div>
 
       <div v-if="feedbackMessage" class="errorMessage w-[400px] mx-auto mt-5">
 
         <FeedbackMessage :status="status" :feedbackMessage="feedbackMessage" />
 
       </div>
+
       <template v-if="status !== 'success'">
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -121,6 +127,24 @@
           </RouterLink>
         </p>
       </template>
+
+
+
+    </div>
+    <div class="bg-gradient-to-tl from-blue-400 to-blue-500 flex-col justify-center items-center p-8 hidden lg:flex">
+      <div class="slogan max-w-lg">
+        <p class="text-white text-5xl font-bold mb-6">Gestão completa de crédito pessoal</p>
+        <p class="text-white text-2xl mb-6">Gerencie clientes, empréstimos e pagamentos em um único lugar de forma
+          simples e
+          eficiente.</p>
+        <div class="list">
+          <ul class="space-y-2 list-disc pl-5">
+            <li class="text-white text-lg">Dashboard com métricas em tempo real</li>
+            <li class="text-white text-lg">Controle de empréstimos e pagamentos</li>
+            <li class="text-white text-lg">Relatórios detalhados e exportação</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>

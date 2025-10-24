@@ -12,14 +12,15 @@ export const useClientStore = defineStore("client", {
     clients_paid_off: 0,
     clients_due: 0,
     meta: {
-    current_page: 1,
-    last_page: 1,
-  },
+      current_page: 1,
+      last_page: 1,
+      links: [],
+    },
   }),
   actions: {
     getClients() {
       const loadingStore = useLoadingStore();
-      
+
       loadingStore.startLoading();
 
       return axios
@@ -30,18 +31,33 @@ export const useClientStore = defineStore("client", {
           this.clients_active = response.data.clients_active;
           this.clients_paid_off = response.data.clients_paid_off;
           this.clients_due = response.data.clients_due;
+          this.meta.current_page = response.data.meta.current_page;
+          this.meta.last_page = response.data.meta.last_page;
+          this.meta.links = response.data.links;
+
         })
         .finally(() => {
           loadingStore.stopLoading();
         });
     },
-    getClientPage(page = 1) {
+
+    getWithFilters(queryString) {
+
+      // console.log(queryString);
       return axios
-        .get(`/api/clients?page=${page}`)
+        .get(`/api/clients?${queryString}`)
         .then((response) => {
+
           this.clients = response.data.clients;
-          this.meta = response.data.meta;
+          this.meta.current_page = response.data.meta.current_page;
+          this.meta.last_page = response.data.meta.last_page;
+          this.meta.links = response.data.links;
+
+          console.log(response);
+          
+
         });
+
     },
 
     getStatistics() {
