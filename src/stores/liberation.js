@@ -20,7 +20,7 @@ export const useLiberationStore = defineStore("liberation", {
 
             loadingStore.startLoading();
 
-            return axios.get('/api/liberations')
+            return axios.get('api/liberations')
                 .then(response => {
                     this.liberations = response.data.liberations;
                     this.meta.liberations_count = response.data.meta.liberations_count;
@@ -38,7 +38,7 @@ export const useLiberationStore = defineStore("liberation", {
 
         getSolicitationPage(page = 1) {
 
-            return axios.get(`/api/liberations?page=${page}`)
+            return axios.get(`api/liberations?page=${page}`)
                 .then(response => {
                     this.liberations = response.data.liberations;
                     this.meta = response.data.meta;
@@ -48,7 +48,7 @@ export const useLiberationStore = defineStore("liberation", {
         deleteLiberation(liberationId) {
             const index = this.liberations.findIndex(liberations => liberations.id === liberationId);
 
-            return axios.delete(`/api/delete-liberation/${liberationId}`).then(() => {
+            return axios.delete(`api/delete-liberation/${liberationId}`).then(() => {
 
                 if (index >= 0) {
                     this.liberations.splice(index, 1);

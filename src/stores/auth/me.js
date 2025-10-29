@@ -4,6 +4,8 @@ import axios from "axios";
 export const useMeStore = defineStore("me", {
     state: () => ({
         user: null,
+        roles: [],
+        permissions: [],
     }),
     actions: {
         getMe() {
@@ -11,6 +13,8 @@ export const useMeStore = defineStore("me", {
             .then(response => {                
                 
                 this.user = response.data.data;
+                this.roles = response.data.data.roles;
+                this.permissions = response.data.data.permissions;
 
             });
         }

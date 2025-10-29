@@ -7,12 +7,15 @@ export const useSolicitationStore = defineStore("solicitation", {
     state: () => ({
         solicitations: [],
         meta: {
-            solicitations_count: 0,
+            solicitations_total: 0,
             solicitations_approved: 0,
             solicitations_pending: 0,
             solicitations_reproved: 0,
-            current_page: 1,
-            last_page: 1
+            meta: {
+                current_page: 1,
+                last_page: 1,
+                links: [],
+            },
         }
     }),
     actions: {
@@ -20,42 +23,47 @@ export const useSolicitationStore = defineStore("solicitation", {
 
             loadingStore.startLoading();
 
-            return axios.get('/api/solicitations')
+            return axios.get('api/solicitations')
                 .then(response => {
                     this.solicitations = response.data.solicitations;
-                    this.meta.solicitations_count = response.data.meta.solicitations_count;
+                    this.meta.solicitations_total = response.data.meta.solicitations_total;
                     this.meta.solicitations_approved = response.data.meta.solicitations_approved;
                     this.meta.solicitations_pending = response.data.meta.solicitations_pending;
                     this.meta.solicitations_reproved = response.data.meta.solicitations_reproved;
                     this.meta.current_page = response.data.meta.current_page;
                     this.meta.last_page = response.data.meta.last_page;
-
-                    console.log(this.meta);
-
+                    this.meta.links = response.data.meta.links;
+                    
                 })
                 .finally(() => {
                     loadingStore.stopLoading();
                 })
         },
 
-        getSolicitationPage(page = 1) {
+        getWithFilters(queryString) {
+            
+            return axios
+                .get(`api/solicitations?${queryString}`)
+                .then((response) => {
 
-            return axios.get(`/api/solicitations?page=${page}`)
-                .then(response => {
                     this.solicitations = response.data.solicitations;
-                    this.meta = response.data.meta;
-                })
+                    this.meta.current_page = response.data.meta.current_page;
+                    this.meta.last_page = response.data.meta.last_page;
+                    this.meta.links = response.data.links;
+
+                });
+
         },
 
         createSolicitation(values, id) {
-            return axios.post(`/api/create-solicitation/${id}`, values)
+            return axios.post(`api/create-solicitation/${id}`, values)
         },
 
 
         deleteSolicitation(solicitationId) {
             const index = this.solicitations.findIndex(solicitation => solicitation.id === solicitationId);
 
-            return axios.delete(`/api/delete-solicitation/${solicitationId}`).then(() => {
+            return axios.delete(`api/delete-solicitation/${solicitationId}`).then(() => {
 
                 if (index >= 0) {
                     this.solicitations.splice(index, 1);
@@ -65,7 +73,7 @@ export const useSolicitationStore = defineStore("solicitation", {
 
         approveSolicitation(solicitationId, amount) {
 
-            return axios.put(`/api/approve-solicitation/${solicitationId}`)
+            return axios.put(`api/approve-solicitation/${solicitationId}`)
                 .then(response => {
 
                     const index = this.solicitations.findIndex(solicitation => solicitation.id === solicitationId);
@@ -78,7 +86,7 @@ export const useSolicitationStore = defineStore("solicitation", {
 
         recuseSolicitation(solicitationId) {
 
-            return axios.put(`/api/recuse-solicitation/${solicitationId}`)
+            return axios.put(`api/recuse-solicitation/${solicitationId}`)
                 .then(response => {
 
                     const index = this.solicitations.findIndex(solicitation => solicitation.id === solicitationId);
@@ -93,7 +101,7 @@ export const useSolicitationStore = defineStore("solicitation", {
 
         counterofferSolicitation(values, solicitationId) {
 
-            return axios.put(`/api/counteroffer-solicitation/${solicitationId}`, values)
+            return axios.put(`api/counteroffer-solicitation/${solicitationId}`, values)
                 .then(response => {
 
                     const index = this.solicitations.findIndex(solicitation => solicitation.id === solicitationId);

@@ -19,7 +19,7 @@ export const useCompanyStore = defineStore("company", {
 
             loadingStore.startLoading();
 
-            return axios.get('/api/info-company')
+            return axios.get('api/info-company')
                 .then(response => {
 
                     console.log(response)

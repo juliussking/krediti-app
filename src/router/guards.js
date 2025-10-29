@@ -30,3 +30,13 @@ export const redirectIfCompanyNotGetPlans = (to, from, next) => {
 
     next()
 }
+// export const RequiresAdminRole = (to, from, next) => {
+//     const meStore = useMeStore()
+
+//     if (!meStore.roles.includes('usuario')) {
+
+//         return next({ name: 'clients' })
+//     }
+
+//     next()
+// }

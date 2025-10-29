@@ -8,9 +8,8 @@
             <div class="">
                 <Sidebar />
             </div>
-            <!-- {{ loadingStore.isLoading }} -->
 
-            <div class="routerView bg-gray-100 w-full h-full p-3 pb-10">
+            <div class="routerView bg-gray-100 w-full h-full px-3 pt-3">
 
                 <div class="mt-5 h-screen w-full" v-if="loadingStore.isLoading">
                     <Loading />
@@ -18,13 +17,17 @@
                 <div v-show="!loadingStore.isLoading">
 
                     <router-view />
+
+                    <div class="footer text-center text-gray-500 flex justify-center p-3">
+                        <p>
+                            Krediti {{ new Date().getFullYear() }} © - Todos os direitos reservados  
+                        </p>
+                    </div>
+
                 </div>
             </div>
         </div>
-
     </main>
-
-
 </template>
 <script setup>
 import Navbar from '../components/layout/Navbar.vue'
@@ -38,6 +41,6 @@ const loadingStore = useLoadingStore()
 
 <style>
 .material-symbols-outlined {
-  font-size: 20px;
+    font-size: 20px;
 }
 </style>

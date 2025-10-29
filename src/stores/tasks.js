@@ -17,7 +17,7 @@ export const useTaskStore = defineStore("tasks", {
         getTasks() {
             loadingStore.startLoading();
 
-            return axios.get('/api/tasks')
+            return axios.get('api/tasks')
                 .then(response => {
                     this.tasks = response.data.tasks;
                     this.tasksCount = response.data.tasks_count;
@@ -32,7 +32,7 @@ export const useTaskStore = defineStore("tasks", {
         },
 
         createTask(title) {
-            return axios.post('/api/create-task', title)
+            return axios.post('api/create-task', title)
                 .then(response => {
                     this.tasks.unshift(response.data.data);
                     this.tasksCount++;
@@ -42,7 +42,7 @@ export const useTaskStore = defineStore("tasks", {
 
             const task = this.tasks.find(task => task.id === taskId);
 
-            return axios.put(`/api/update-task/${taskId}`).then(() => {
+            return axios.put(`api/update-task/${taskId}`).then(() => {
                 task.completed = !task.completed
                 if (!task.completed) {
                     this.tasksCompleted--;

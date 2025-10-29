@@ -20,7 +20,7 @@ export const usePaymentStore = defineStore("payments", {
 
             loadingStore.startLoading();
 
-            return axios.get('/api/payments')
+            return axios.get('api/payments')
                 .then(response => {
                     this.payments = response.data.payments;
                     this.meta.payments_count = response.data.meta.payments_count;
@@ -39,7 +39,7 @@ export const usePaymentStore = defineStore("payments", {
         },
 
         getPaymentPage(page = 1) {
-            return axios.get(`/api/payments?page=${page}`)
+            return axios.get(`/payments?page=${page}`)
                 .then(response => {
                     this.payments = response.data.payments;
                     this.meta = response.data.meta;
@@ -47,7 +47,7 @@ export const usePaymentStore = defineStore("payments", {
         },
 
         createPayment(values, id) {
-            return axios.post(`/api/create-payment/${id}`, {
+            return axios.post(`/create-payment/${id}`, {
                 amount: values.amount_received,
             })
         },
@@ -56,7 +56,7 @@ export const usePaymentStore = defineStore("payments", {
         deletePayment(paymentsId) {
             const index = this.payments.findIndex(payments => payments.id === paymentsId);
 
-            return axios.delete(`/api/delete-payment/${paymentsId}`).then(() => {
+            return axios.delete(`/delete-payment/${paymentsId}`).then(() => {
 
                 if (index >= 0) {
                     this.paymentsId.splice(index, 1);

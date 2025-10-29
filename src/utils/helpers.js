@@ -40,6 +40,7 @@ const message = {
     CompanyNotFoundException: 'Este usuário não pertence a uma empresa.',
     CompanyDontHasSubscriptionException: 'Sua empresa não possui uma assinatura ativa. Por favor, entre em contato com o seu administrador.',
     ExceedsTotalException: 'Valor recebido excede o valor total.',
+    UserDoesNotHaveAccessToThePainelException: 'Acesso suspenso. Por favor, entre em contato com seu administrador.',
 
 }
 

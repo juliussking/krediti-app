@@ -12,7 +12,7 @@ export const useAuthStore = defineStore("auth", {
     getters: {},
     actions: {
         sanctum() {
-            return axios.get("/sanctum/csrf-cookie");
+            return axios.get("sanctum/csrf-cookie");
         },
 
         login(email, password) {
@@ -24,6 +24,8 @@ export const useAuthStore = defineStore("auth", {
                     const meStore = useMeStore();
                     meStore.getMe();
                     meStore.user = response.data.data;
+                    meStore.roles = response.data.data.roles;
+                    meStore.permissions = response.data.data.permissions;
 
                 });
         },
@@ -38,13 +40,13 @@ export const useAuthStore = defineStore("auth", {
 
         registerCompany(values) {
             
-            return axios.post('/api/company-register', values)
+            return axios.post('api/company-register', values)
             
         },
 
         verifyEmail(token) {
             
-            return axios.post('/api/verify-email', {
+            return axios.post('api/verify-email', {
                 token: token
             })
             

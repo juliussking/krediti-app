@@ -44,7 +44,11 @@
 import { computed, defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-  links: { type: Array, required: true },
+  links: { 
+    type: Array, 
+    required: true,
+    default: () => []
+   },
 });
 
 const emits = defineEmits(["change"]);

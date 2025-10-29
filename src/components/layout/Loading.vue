@@ -1,28 +1,29 @@
 <template>
-  <div class="flex justify-center h-full" 
-  >
-    <span class="loader border-2 border-white-500"></span>
+  <div class="flex justify-center h-full">
+    <span
+    :class="['w-5 h-5 border-2 border-b-transparent rounded-full inline-block box-border animate-spin-fast',
+    color ]"></span>
   </div>
 </template>
 
-<style scoped>
-.loader {
-  width: 20px;
-  height: 20px;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 500ms linear infinite;
+<script setup>
+defineProps({
+  color: {
+    type: String,
+    default: 'text-blue-500'
+  }
+})
 
+</script>
+
+<style>
+@keyframes spin-fast {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    } 
+.animate-spin-fast {
+  animation: spin-fast 0.5s linear infinite;
+}
 </style>

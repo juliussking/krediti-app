@@ -26,6 +26,7 @@ const router = createRouter({
           path: '',
           name: 'dashboard',
           component: () => import('../views/Dashboard.vue'),
+          // beforeEnter: RequiresAdminRole
         },
         {
           path: '/clientes',

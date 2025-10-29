@@ -195,7 +195,7 @@ function getPlans() {
 
   loading.value = true
 
-  axios.get('/api/plans').then((response) => {
+  axios.get('/plans').then((response) => {
     plans.value = response.data.data
   })
     .finally(() => {
@@ -223,7 +223,7 @@ function subscribeYearly(planId) {
 
 
 function subscribe(planId) {
-  axios.post('/api/subscription', {
+  axios.post('/subscription', {
     plan_id: planId,
     frequency: frequency.value
   }).then(response => {

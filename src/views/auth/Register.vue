@@ -1,153 +1,194 @@
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2 h-screen">
-    <div class="bg-gray-100 flex flex-col justify-center items-center ">
-
-      <div class="logo w-full max-w-md">
-
-        <Logo />
-
-        <div class="sub my-8 text-start max-w-md">
-
-          <h2 class="text-3xl font-bold text-gray-800">Cadastro</h2>
-          <p class="subtitle text-gray-500 text-md">Insira seus dados para se cadastrar</p>
+  <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+    <!-- Lado esquerdo (formulário) -->
+    <div class="bg-gray-100 flex flex-col justify-center items-center px-6 py-8 sm:px-10">
+      <div class="w-full max-w-md">
+        <div class="flex flex-col items-center lg:items-start text-center lg:text-left">
+          <Logo />
+          <div class="my-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Cadastro</h2>
+            <p class="text-gray-500 text-sm sm:text-base">
+              Insira seus dados para se cadastrar
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div v-if="feedbackMessage" class="errorMessage w-[400px] mx-auto mt-5">
+        <div v-if="feedbackMessage" class="mt-4">
+          <FeedbackMessage :status="status" :feedbackMessage="feedbackMessage" />
+        </div>
 
-        <FeedbackMessage :status="status" :feedbackMessage="feedbackMessage" />
+        <template v-if="status !== 'success'">
+          <form @submit.prevent="submit" class="space-y-6 mt-6">
+            <!-- Dados da empresa -->
+            <div>
+              <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                Dados da empresa
+              </h3>
 
-      </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <LabelForm>Nome Fantasia</LabelForm>
+                  <BaseInput
+                    :error="!!errors.fantasy_name"
+                    v-model="fantasy_name"
+                    @update:modelValue="$emit('update:fantasy_name', $event)"
+                    type="text"
+                    placeholder="Ex: Krediti Financeira"
+                  />
+                  <ErrorsForm :errors="errors" attr="fantasy_name" />
+                </div>
 
-      <template v-if="status !== 'success'">
+                <div>
+                  <LabelForm>Razão Social</LabelForm>
+                  <BaseInput
+                    :error="!!errors.social_reason"
+                    v-model="social_reason"
+                    @update:modelValue="$emit('update:social_reason', $event)"
+                    type="text"
+                    placeholder="Ex: Krediti Financeira"
+                  />
+                  <ErrorsForm :errors="errors" attr="social_reason" />
+                </div>
 
-        <form @submit.prevent="submit" class="space-y-6">
+                <div>
+                  <LabelForm>CNPJ</LabelForm>
+                  <BaseInput
+                    :error="!!errors.cnpj"
+                    v-model="cnpj"
+                    @update:modelValue="$emit('update:cnpj', $event)"
+                    type="text"
+                    placeholder="00.000.000/0001-00"
+                  />
+                  <ErrorsForm :errors="errors" attr="cnpj" />
+                </div>
 
-          <div>
-            <h3 class="text-lg font-semibold text-gray-700 mb-3">Dados da empresa</h3>
+                <div>
+                  <LabelForm>Telefone</LabelForm>
+                  <BaseInput
+                    :error="!!errors.company_phone"
+                    v-model="company_phone"
+                    @update:modelValue="$emit('update:company_phone', $event)"
+                    type="text"
+                    placeholder="(11) 99999-0000"
+                  />
+                  <ErrorsForm :errors="errors" attr="company_phone" />
+                </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <LabelForm>Nome Fantasia</LabelForm>
-                <BaseInput :error="!!errors.fantasy_name" v-model="fantasy_name"
-                  @update:modelValue="$emit('update:fantasy_name', $event)" type="text"
-                  placeholder="Ex: Krediti Financeira" />
-                <ErrorsForm :errors="errors" attr="fantasy_name" />
-              </div>
-
-              <div>
-                <LabelForm>Razão Social</LabelForm>
-                <BaseInput :error="!!errors.social_reason" v-model="social_reason"
-                  @update:modelValue="$emit('update:social_reason', $event)" type="text"
-                  placeholder="Ex: Krediti Financeira" />
-                <ErrorsForm :errors="errors" attr="social_reason" />
-              </div>
-
-              <div>
-                <LabelForm>CNPJ</LabelForm>
-                <BaseInput :error="!!errors.cnpj" v-model="cnpj" @update:modelValue="$emit('update:cnpj', $event)"
-                  type="text" placeholder="00.000.000/0001-00" />
-                <ErrorsForm :errors="errors" attr="cnpj" />
-              </div>
-
-              <div>
-                <LabelForm>Telefone</LabelForm>
-                <BaseInput :error="!!errors.company_phone" v-model="company_phone"
-                  @update:modelValue="$emit('update:company_phone', $event)" type="text"
-                  placeholder="(11) 99999-0000" />
-                <ErrorsForm :errors="errors" attr="company_phone" />
-              </div>
-
-              <div class="col-span-2">
-                <LabelForm>Email</LabelForm>
-                <BaseInput :error="!!errors.company_email" v-model="company_email"
-                  @update:modelValue="$emit('update:company_email', $event)" type="email"
-                  placeholder="empresa@gmail.com" />
-                <ErrorsForm :errors="errors" attr="company_email" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Dados do Administrador -->
-          <div>
-            <h3 class="text-lg font-semibold text-gray-700 mb-3">Dados do administrador</h3>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <LabelForm>Nome completo</LabelForm>
-                <BaseInput :error="!!errors.admin_name" v-model="admin_name"
-                  @update:modelValue="$emit('update:admin_name', $event)" type="text"
-                  placeholder="Ex: João da Silva" />
-                <ErrorsForm :errors="errors" attr="admin_name" />
-              </div>
-              <div>
-                <LabelForm>Telefone</LabelForm>
-                <BaseInput :error="!!errors.admin_phone" v-model="admin_phone"
-                  @update:modelValue="$emit('update:admin_phone', $event)" type="number"
-                  placeholder="Ex: João da Silva" />
-                <ErrorsForm :errors="errors" attr="admin_phone" />
-              </div>
-
-              <div>
-                <LabelForm>E-mail</LabelForm>
-                <BaseInput :error="!!errors.admin_email" v-model="admin_email"
-                  @update:modelValue="$emit('update:admin_email', $event)" type="email" placeholder="admin@email" />
-                <ErrorsForm :errors="errors" attr="admin_email" />
-              </div>
-
-              <div>
-                <LabelForm>Data de nascimento</LabelForm>
-                <BaseInput :error="!!errors.admin_birthday" v-model="admin_birthday"
-                  @update:modelValue="$emit('update:admin_birthday', $event)" type="date" />
-                <ErrorsForm :errors="errors" attr="admin_birthday" />
-              </div>
-
-
-              <div class="md:col-span-2">
-
-                <LabelForm>Senha</LabelForm>
-
-                <BaseInput :error="!!errors.password" v-model="password"
-                  @update:modelValue="$emit('update:password', $event)" type="password"
-                  placeholder="Digite sua senha" />
-                <ErrorsForm :errors="errors" attr="password" />
+                <div class="sm:col-span-2">
+                  <LabelForm>Email</LabelForm>
+                  <BaseInput
+                    :error="!!errors.company_email"
+                    v-model="company_email"
+                    @update:modelValue="$emit('update:company_email', $event)"
+                    type="email"
+                    placeholder="empresa@gmail.com"
+                  />
+                  <ErrorsForm :errors="errors" attr="company_email" />
+                </div>
               </div>
             </div>
-          </div>
 
-          <DefaultButton
-            buttonClass="bg-blue-600 mx-auto hover:bg-blue-700 text-white disabled:bg-gray-100 disabled:cursor-not-allowed"
-            buttonSize="w-full lg:w-50 p-2" type="submit" :loading="isSubmitting" :disabled="isSubmitting">
-            Cadastrar
-          </DefaultButton>
+            <!-- Dados do administrador -->
+            <div>
+              <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                Dados do administrador
+              </h3>
 
-        </form>
-        <p class="mt-4 text-sm text-center text-gray-600">
-          Já tem conta? <RouterLink :to="{ name: 'login' }" class="text-blue-500 hover:underline">Faça login
-          </RouterLink>
-        </p>
-      </template>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <LabelForm>Nome completo</LabelForm>
+                  <BaseInput
+                    :error="!!errors.admin_name"
+                    v-model="admin_name"
+                    @update:modelValue="$emit('update:admin_name', $event)"
+                    type="text"
+                    placeholder="Ex: João da Silva"
+                  />
+                  <ErrorsForm :errors="errors" attr="admin_name" />
+                </div>
 
+                <div>
+                  <LabelForm>Telefone</LabelForm>
+                  <BaseInput
+                    :error="!!errors.admin_phone"
+                    v-model="admin_phone"
+                    @update:modelValue="$emit('update:admin_phone', $event)"
+                    type="text"
+                    placeholder="(11) 99999-0000"
+                  />
+                  <ErrorsForm :errors="errors" attr="admin_phone" />
+                </div>
 
+                <div>
+                  <LabelForm>E-mail</LabelForm>
+                  <BaseInput
+                    :error="!!errors.admin_email"
+                    v-model="admin_email"
+                    @update:modelValue="$emit('update:admin_email', $event)"
+                    type="email"
+                    placeholder="admin@email.com"
+                  />
+                  <ErrorsForm :errors="errors" attr="admin_email" />
+                </div>
 
+                <div>
+                  <LabelForm>Data de nascimento</LabelForm>
+                  <BaseInput
+                    :error="!!errors.admin_birthday"
+                    v-model="admin_birthday"
+                    @update:modelValue="$emit('update:admin_birthday', $event)"
+                    type="date"
+                  />
+                  <ErrorsForm :errors="errors" attr="admin_birthday" />
+                </div>
+
+                <div class="sm:col-span-2">
+                  <LabelForm>Senha</LabelForm>
+                  <BaseInput
+                    :error="!!errors.password"
+                    v-model="password"
+                    @update:modelValue="$emit('update:password', $event)"
+                    type="password"
+                    placeholder="Digite sua senha"
+                  />
+                  <ErrorsForm :errors="errors" attr="password" />
+                </div>
+              </div>
+            </div>
+
+            <DefaultButton
+              buttonClass="bg-gradient-to-tl from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+              buttonSize="w-full h-12 p-3"
+              type="submit"
+              :loading="isSubmitting"
+              :disabled="isSubmitting"
+            >
+              Cadastrar
+            </DefaultButton>
+
+            <p class="mt-4 text-sm text-center text-gray-600">
+              Já tem conta?
+              <RouterLink
+                :to="{ name: 'login' }"
+                class="text-blue-500 hover:underline"
+              >
+                Faça login
+              </RouterLink>
+            </p>
+          </form>
+        </template>
+      </div>
     </div>
-    <div class="bg-gradient-to-tl from-blue-400 to-blue-500 flex-col justify-center items-center p-8 hidden lg:flex">
-      <div class="slogan max-w-lg">
-        <p class="text-white text-5xl font-bold mb-6">Gestão completa de crédito pessoal</p>
-        <p class="text-white text-2xl mb-6">Gerencie clientes, empréstimos e pagamentos em um único lugar de forma
-          simples e
-          eficiente.</p>
-        <div class="list">
-          <ul class="space-y-2 list-disc pl-5">
-            <li class="text-white text-lg">Dashboard com métricas em tempo real</li>
-            <li class="text-white text-lg">Controle de empréstimos e pagamentos</li>
-            <li class="text-white text-lg">Relatórios detalhados e exportação</li>
-          </ul>
-        </div>
-      </div>
+
+    <!-- Lado direito (informações) -->
+    <div
+      class="hidden lg:flex bg-gradient-to-tl from-blue-400 to-blue-500 justify-center items-center p-8"
+    >
+      <InfoSection />
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -167,6 +208,7 @@ import { useField, useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import FeedbackMessage from '@/components/FeedbackMessage.vue';
 import Logo from '@/components/layout/Logo.vue';
+import InfoSection from '@/components/layout/InfoSection.vue';
 
 const schema = object({
 

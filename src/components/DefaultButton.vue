@@ -1,6 +1,6 @@
 <template>
     <button
-          :class="[`rounded transition cursor-pointer disabled:bg-gray-200 disabled:cursor-not-allowed flex justify-center items-center`, 
+          :class="[`rounded transition cursor-pointer disabled:cursor-not-allowed flex justify-center items-center`, 
             buttonClass,
             buttonSize
           ]"

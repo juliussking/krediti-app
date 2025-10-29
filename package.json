@@ -10,6 +10,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.7.4",
     "@headlessui/vue": "^1.7.23",
     "@tailwindcss/vite": "^4.1.10",
     "axios": "^1.10.0",
