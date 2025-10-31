@@ -7,6 +7,7 @@ import App from './App.vue'
 import router from './router'
 import '@/plugins/axios.js'
 import '@/plugins/yup.js'
+import Toast from './plugins/vue-toastification.js'
 
 
 
@@ -19,6 +20,7 @@ meStore.getMe()
 .finally(() => {
     app
     .use(router)
+    .use(Toast)
     .mount('#app')
 
 })

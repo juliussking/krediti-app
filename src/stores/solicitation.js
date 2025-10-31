@@ -77,6 +77,7 @@ export const useSolicitationStore = defineStore("solicitation", {
                 .then(response => {
 
                     const index = this.solicitations.findIndex(solicitation => solicitation.id === solicitationId);
+                    
                     if (index >= 0) {
                         this.solicitations[index].status = 'Aprovada';
                         this.solicitations[index].amount_approved = amount;

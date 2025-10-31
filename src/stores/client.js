@@ -37,7 +37,7 @@ export const useClientStore = defineStore("client", {
           this.clients_due = response.data.clients_due;
           this.meta.current_page = response.data.meta.current_page;
           this.meta.last_page = response.data.meta.last_page;
-          this.meta.links = response.data.links;
+          this.meta.links = response.data.meta.links;
 
 
         })
@@ -77,8 +77,6 @@ export const useClientStore = defineStore("client", {
           this.meta.percent_client_active_this_month_vs_last_month = response.data.percent_client_active_this_month_vs_last_month;
           this.meta.percent_client_due_this_month_vs_last_month = response.data.percent_client_due_this_month_vs_last_month;
           this.meta.percent_client_paid_off_this_month_vs_last_month = response.data.percent_client_paid_off_this_month_vs_last_month;
-
-          
 
         })
         .finally(() => {

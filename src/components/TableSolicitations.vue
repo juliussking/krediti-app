@@ -3,13 +3,13 @@
   <div
     class="mb-4 p-5 relative overflow-hidden bg-white shadow shadow-sm shadow-blue-50 rounded-xl border border-gray-200">
     <!-- Título -->
-    <div class="title flex items-center gap-2 absolute top-4 left-4 text-gray-600">
+    <div class="title flex items-center gap-2 absolute text-gray-600 relative">
       <span class="material-symbols-outlined">filter_list</span>
       <p>Filtros</p>
     </div>
 
     <!-- Campos -->
-    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div>
         <label class="text-xs text-gray-500 font-medium">Status</label>
         <select
@@ -221,6 +221,10 @@ import { formatCurrency, formatDate } from '@/utils/helpers'
 import qs from 'qs'
 import Loading from './layout/Loading.vue'
 
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
+
 const solicitationStore = useSolicitationStore()
 const filterClientLoading = ref(false)
 
@@ -275,7 +279,15 @@ function applyFilters(url = null) {
   )
 
   const base = url ? url : '?page=1'
-  solicitationStore.getWithFilters(`${base}&${queryObject}`).finally(() => {
+  solicitationStore.getWithFilters(`${base}&${queryObject}`)
+  .then(() => {
+
+    toast.success('Filtros aplicados com sucesso!');
+    
+  }).catch(() => {
+    toast.error('Erro ao aplicar filtros, tente novamente!');
+  })
+  .finally(() => {
     filterClientLoading.value = false
   })
 }

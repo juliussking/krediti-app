@@ -40,6 +40,7 @@ export const useUserStore = defineStore("user", {
                 })
         },
         getWithFilters(queryString) {
+            
             return axios
                 .get(`api/users?${queryString}`)
                 .then((response) => {
@@ -53,13 +54,22 @@ export const useUserStore = defineStore("user", {
         },
 
         getStatistics() {
+
+            loadingStore.startLoading();
+
             return axios
                 .get("api/users/statistics")
                 .then((response) => {
+                    
                     this.meta.users_count = response.data.meta.users_count;
                     this.meta.users_active = response.data.meta.users_active;
                     this.meta.users_inactive = response.data.meta.users_inactive;
                     this.meta.users_blocked = response.data.meta.users_blocked;
+
+                }).finally(() => {
+
+                    loadingStore.stopLoading();
+
                 })
         },
 
